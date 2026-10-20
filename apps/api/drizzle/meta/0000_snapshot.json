@@ -1,0 +1,183 @@
+{
+  "id": "72a7d92b-79e9-401b-a273-a309c97c9bc3",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.posts": {
+      "name": "posts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "uuidv7()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "excerpt": {
+          "name": "excerpt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "author_name": {
+          "name": "author_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'"
+        },
+        "cover_image_url": {
+          "name": "cover_image_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_image_alt": {
+          "name": "cover_image_alt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "posts_published_list_idx": {
+          "name": "posts_published_list_idx",
+          "columns": [
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            },
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "where": "\"posts\".\"status\" = 'published'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "posts_slug_unique": {
+          "name": "posts_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "posts_slug_chk": {
+          "name": "posts_slug_chk",
+          "value": "\"posts\".\"slug\" ~ '^[a-z0-9]+(-[a-z0-9]+)*$' AND char_length(\"posts\".\"slug\") <= 100"
+        },
+        "posts_title_chk": {
+          "name": "posts_title_chk",
+          "value": "char_length(\"posts\".\"title\") BETWEEN 1 AND 200"
+        },
+        "posts_excerpt_chk": {
+          "name": "posts_excerpt_chk",
+          "value": "char_length(\"posts\".\"excerpt\") BETWEEN 1 AND 300"
+        },
+        "posts_author_name_chk": {
+          "name": "posts_author_name_chk",
+          "value": "char_length(\"posts\".\"author_name\") BETWEEN 1 AND 100"
+        },
+        "posts_tags_chk": {
+          "name": "posts_tags_chk",
+          "value": "cardinality(\"posts\".\"tags\") <= 10"
+        },
+        "posts_cover_image_alt_chk": {
+          "name": "posts_cover_image_alt_chk",
+          "value": "char_length(\"posts\".\"cover_image_alt\") <= 200"
+        },
+        "posts_status_chk": {
+          "name": "posts_status_chk",
+          "value": "\"posts\".\"status\" IN ('draft', 'published')"
+        },
+        "posts_cover_pair_chk": {
+          "name": "posts_cover_pair_chk",
+          "value": "(\"posts\".\"cover_image_url\" IS NULL) = (\"posts\".\"cover_image_alt\" IS NULL)"
+        },
+        "posts_published_at_chk": {
+          "name": "posts_published_at_chk",
+          "value": "\"posts\".\"status\" <> 'published' OR \"posts\".\"published_at\" IS NOT NULL"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

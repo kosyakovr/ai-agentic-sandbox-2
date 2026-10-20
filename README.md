@@ -9,7 +9,8 @@ apps/
                           route-local UI → app/<segment>/_components/<Name>/
     src/components/       UI shared by 2+ routes, grouped by domain (kebab-case)
     src/lib/              API client, providers, narrowly named app-wide helpers (no utils.ts)
-    src/lib/hooks/        data hooks per domain, the only callers of the API
+    src/lib/api.ts        the only caller of the API; server-rendered pages read through src/lib/*
+    src/lib/hooks/        data hooks per domain
     public/               static assets
   api/                    Fastify (onion / ports-and-adapters)
     src/modules/<name>/   vertical slices: routes.ts → service.ts → repository.ts (+ helpers.ts, constants.ts)
@@ -24,17 +25,18 @@ packages/
 ```
 
 Dependency direction:
-- **api:** routes → service → repository → db. Only repositories import `drizzle-orm`, and only `routes.ts` imports `fastify`.
+- **api:** routes → service → repository → db. Within `src/modules/**`, only repositories import `drizzle-orm` and only `routes.ts` imports `fastify`; the bootstrap files (`src/app.ts`, `src/server.ts`) import `fastify`, and `src/db/` imports `drizzle-orm`.
 - **web:** contracts → lib → routes/components. Never import another route's `_components/`.
 - **contracts:** imports only `zod`.
 
 ## Getting started
 
 ```bash
-cp .env.example .env
+cp .env.example .env               # fill API_BASE_URL and SITE_URL (required by the web app)
 pnpm install
 pnpm db:up                         # Postgres in Docker
 pnpm --filter @blog/api db:generate  # after adding tables to src/db/schema
 pnpm --filter @blog/api db:migrate
+pnpm --filter @blog/api db:seed      # dev data
 pnpm dev                           # web + api
 ```

@@ -7,9 +7,10 @@
     "dev": "tsx watch --env-file=../../.env src/server.ts",
     "start": "tsx --env-file=../../.env src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests --no-file-parallelism",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx --env-file=../../.env src/db/seed/cli.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
