@@ -1,0 +1,16 @@
+{
+  "enabledPlugins": {
+    "sdd-engineering@dev-digest-ai": true,
+    "engineering-paved-path@dev-digest-ai": true,
+    "research-tools@dev-digest-ai": true,
+    "architecture-review@dev-digest-ai": true
+  },
+  "extraKnownMarketplaces": {
+    "dev-digest-ai": {
+      "source": {
+        "source": "github",
+        "repo": "kosyakovr/dev-digest-ai-marketplace"
+      }
+    }
+  }
+}
