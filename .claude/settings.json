@@ -10,7 +10,8 @@
       "source": {
         "source": "github",
         "repo": "kosyakovr/dev-digest-ai-marketplace"
-      }
+      },
+      "autoUpdate": true
     }
   }
 }
