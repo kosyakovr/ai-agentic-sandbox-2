@@ -1,15 +1,16 @@
 {
   "enabledPlugins": {
-    "sdd-engineering@dev-digest-ai": true,
-    "engineering-paved-path@dev-digest-ai": true,
-    "research-tools@dev-digest-ai": true,
-    "architecture-review@dev-digest-ai": true
+    "sdd-engineering@dev-digest-ai-latest": true,
+    "engineering-paved-path@dev-digest-ai-latest": true,
+    "research-tools@dev-digest-ai-latest": true,
+    "architecture-review@dev-digest-ai-latest": true
   },
   "extraKnownMarketplaces": {
-    "dev-digest-ai": {
+    "dev-digest-ai-latest": {
       "source": {
         "source": "github",
-        "repo": "kosyakovr/dev-digest-ai-marketplace"
+        "repo": "kosyakovr/dev-digest-ai-marketplace",
+        "ref": "latest"
       },
       "autoUpdate": true
     }
