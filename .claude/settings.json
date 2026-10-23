@@ -1,18 +1,4 @@
 {
-  "enabledPlugins": {
-    "sdd-engineering@dev-digest-ai-latest": true,
-    "engineering-paved-path@dev-digest-ai-latest": true,
-    "research-tools@dev-digest-ai-latest": true,
-    "architecture-review@dev-digest-ai-latest": true
-  },
-  "extraKnownMarketplaces": {
-    "dev-digest-ai-latest": {
-      "source": {
-        "source": "github",
-        "repo": "kosyakovr/dev-digest-ai-marketplace",
-        "ref": "latest"
-      },
-      "autoUpdate": true
-    }
-  }
+  "enabledPlugins": {},
+  "extraKnownMarketplaces": {}
 }
