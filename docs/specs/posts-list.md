@@ -20,7 +20,7 @@ exercises every list state, so the page can be built and reviewed against realis
 - Infinite scroll, "load more", cursor pagination (S-2 chose page numbers).
 - Remote image hosts, a CDN, image upload (A-14).
 - `rel="prev"`/`rel="next"` `<link>` tags in the document head (A-10).
-- A manual light/dark toggle (A-23); i18n — English only (A-6); analytics, comments, view counts (inferred).
+- A manual light/dark toggle (A-23; now specified in `docs/specs/theme-toggle.md`); i18n — English only (A-6); analytics, comments, view counts (inferred).
 
 ## Sources
 | ID | Source | What it contributes |
@@ -205,7 +205,7 @@ repeated → AC-26, AC-38; huge `page` → AC-38 (A-2); a post published between
 - **A-20** Offset pagination drift is accepted: a post published between two page views can push one item to the next page.
 - **A-21** Tiebreaker for equal publishedAt is post id descending.
 - **A-22** The web app has no test suite (S-4); web-only criteria are verified by demo for this stage (P-2 deferred) — confirmed, user · 2026-10-20 (S-7).
-- **A-23** Colour scheme follows `prefers-color-scheme` only (S-2).
+- **A-23** Colour scheme follows `prefers-color-scheme` only (S-2). Superseded for the manual choice by `docs/specs/theme-toggle.md` (Light / Dark / System, default System), user · 2026-10-23; AC-12 still holds while the choice is System.
 - **A-24** Card title links target `/posts/{slug}` and return 404 until the post-page spec ships; that 404 is expected, not a defect of this feature — user · 2026-10-20 (S-7).
 
 ## Open questions
