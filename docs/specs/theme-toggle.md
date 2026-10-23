@@ -1,6 +1,6 @@
 # Theme toggle
 
-**Status:** draft
+**Status:** approved (user · 2026-10-23)
 **Ticket:** none
 **Areas:** apps/web
 
@@ -19,6 +19,7 @@ non-goal "A manual light/dark toggle (A-23)" (S-5); posts-list A-23 now points t
 - Animation of the theme menu opening or closing (A-7).
 - Palette-specific images: cover images are the same in both palettes (inferred).
 - A keyboard shortcut for switching, and type-ahead (letter keys) inside the menu (inferred; A-14).
+- Opening the theme menu with ArrowUp on the closed "Theme" button — plan REC-2 rejected (user · 2026-10-23, S-9); ArrowUp there does nothing (AC-46, A-18).
 - A web test suite — still deferred as posts-list P-2 (S-5) and as P-2 here (S-8); web rows stay `demo` (A-12).
 
 ## Sources
@@ -32,6 +33,7 @@ non-goal "A manual light/dark toggle (A-23)" (S-5); posts-list A-23 now points t
 | S-6 | existing — `apps/web/src/app/posts/page.tsx:30-38`, `apps/web/src/lib/posts.ts:47-58`, `apps/web/package.json:6-11` | `/posts` is rendered per request; the API cache is keyed by page only; web has no test script |
 | S-7 | request — user answers to open questions, 2026-10-23 | three choices Light / Dark / System; choice kept in browser storage (localStorage), applied before first paint; A-4 stands (JS off → control hidden, page follows the OS); the control is a "Theme" button that opens a menu of Light / Dark / System |
 | S-8 | request — user decisions on proposals, 2026-10-23: "P-1 - так", "P-2 - пізніше", "оновити A-23" | P-1 accepted (cross-fade, off under reduced motion); P-2 deferred; posts-list A-23 updated to point here |
+| S-9 | request — user answers to the implementation plan's defaults, 2026-10-23 (`docs/plans/theme-toggle.md` Requirements review R-3, R-8; REC-2) | R-3 accepted: palette identity is checked on resolved computed colours (A-17); R-8 accepted: ArrowUp on the closed button does nothing, Tab / Shift+Tab focus targets (A-18); REC-2 (ArrowUp opens) rejected |
 
 ## User stories
 ### US-1 — Pick a palette (P1)
@@ -50,7 +52,7 @@ As a returning reader, I want the site to remember my choice in this browser and
   the "Blog" link (user · 2026-10-23, S-7; A-9). The button shows the icon of the current choice and the visible text
   "Theme"; its accessible name is "Theme: <current choice>" (A-13). It opens a menu of three radio-style items, "Light",
   "Dark", "System", exactly one checked — the WAI-ARIA menu button pattern: the button exposes a menu popup and
-  `aria-expanded`; the items are `menuitemradio` with `aria-checked` (A-16). Keyboard and focus follow A-14; the menu
+  `aria-expanded`; the items are `menuitemradio` with `aria-checked` (A-16). Keyboard and focus follow A-14 and A-18; the menu
   overlays the page below the button and stays inside the viewport (A-9). The document's `color-scheme` and the browser
   UI colour (`theme-color`) follow the active palette (AC-11, AC-12).
 - **Persistence:** the reader's choice — `light | dark | system` — kept in browser storage (localStorage) for this site
@@ -76,7 +78,7 @@ All in the reader's browser; no server hop.
 - **AC-7** (US-1 · S-2) WHEN the reader makes a choice, the page SHALL apply it without a reload.
 - **AC-8** (US-1 · S-7, A-13) WHEN the reader makes a choice, the "Theme" button SHALL show that choice's icon.
 - **AC-9** (US-1 · S-7, A-14) WHEN the reader selects a choice in the menu, keyboard focus SHALL return to the "Theme" button.
-- **AC-10** (US-1 · S-3) WHILE "Dark" is chosen, the page SHALL use the same token values as a "System" visit on a dark OS.
+- **AC-10** (US-1 · S-3, A-17) WHILE "Dark" is chosen, the page SHALL render the same resolved colours as a "System" visit on a dark OS.
 - **AC-11** (US-1 · S-2, S-4) The document's computed `color-scheme` SHALL equal the active palette (`light` or `dark`).
 - **AC-12** (US-1 · S-2, A-11) The browser UI colour (`theme-color`) SHALL equal the active palette's background: `#ffffff` light, `#12141a` dark.
 - **AC-13** (US-1 · S-7, A-4) IF JavaScript is disabled, THEN the page SHALL show no "Theme" button.
@@ -91,11 +93,14 @@ All in the reader's browser; no server hop.
 - **AC-36** (US-1 · S-7) WHEN the reader selects a choice by click, tap, Enter or Space, the theme menu SHALL close.
 - **AC-37** (US-1 · S-7, A-14) WHILE the theme menu is open, WHEN the reader presses Escape, the menu SHALL close without changing the choice.
 - **AC-38** (US-1 · S-7, A-14) WHEN Escape closes the theme menu, keyboard focus SHALL return to the "Theme" button.
-- **AC-39** (US-1 · S-7, A-14) WHILE the theme menu is open, WHEN the reader presses Tab or Shift+Tab, the menu SHALL close without changing the choice.
+- **AC-39** (US-1 · S-7, A-14, A-18) WHILE the theme menu is open, WHEN the reader presses Tab or Shift+Tab, the menu SHALL close without changing the choice.
 - **AC-40** (US-1 · S-7, A-14) WHILE the theme menu is open, WHEN the reader clicks or taps outside the menu and the button, the menu SHALL close without changing the choice.
 - **AC-41** (US-1 · A-14) WHILE the theme menu is open, WHEN the reader activates the "Theme" button by click or tap, the menu SHALL close.
 - **AC-42** (US-1 · A-15) WHILE the theme menu is open, WHEN the choice changes in another tab, the menu SHALL stay open with the new choice checked.
 - **AC-43** (US-1 · A-9) WHEN the theme menu opens, it SHALL render above the page content without moving it.
+- **AC-44** (US-1 · A-18) WHEN Tab closes the theme menu, keyboard focus SHALL move to the first focusable element after the "Theme" button in the Tab order.
+- **AC-45** (US-1 · A-18) WHEN Shift+Tab closes the theme menu, keyboard focus SHALL move to the "Blog" link.
+- **AC-46** (US-1 · A-18) WHILE the theme menu is closed, WHEN the reader presses ArrowUp on the "Theme" button, the theme menu SHALL stay closed.
 
 **Remembering (US-2)**
 - **AC-16** (US-2 · A-5) WHEN the reader makes several choices in a row and reloads, the page SHALL render the last choice made.
@@ -127,7 +132,8 @@ All in the reader's browser; no server hop.
 
 Other edge cases: OS changes while "Dark" is chosen → AC-6; rapid repeated choices end on the last one → AC-16;
 storage cleared by the reader → AC-21; two tabs changed at once → the last change wins in both (A-6); menu dismissed by
-Escape, Tab or outside click → AC-37–AC-40; choosing the already-checked item closes the menu and changes nothing
+Escape, Tab or outside click → AC-37–AC-40, focus after Tab / Shift+Tab → AC-44, AC-45; ArrowUp on the closed button →
+AC-46 (A-18); choosing the already-checked item closes the menu and changes nothing
 (AC-36, A-14); no hydration warning in any state → NFR-11.
 
 ## Non-functional
@@ -164,9 +170,11 @@ Escape, Tab or outside click → AC-37–AC-40; choosing the already-checked ite
 - **A-11** `theme-color` equals the active palette's `--bg` (S-3); with no stored choice or JavaScript off it follows the OS; none is set today (S-4).
 - **A-12** Web criteria are verified by `demo`, `inspection` or `analysis` — the web app has no test suite (S-6, posts-list A-22).
 - **A-13** The button shows a distinct icon per choice (Light, Dark, System) beside the visible text "Theme", so the current choice is visible without opening the menu; its accessible name "Theme: <choice>" announces the current choice and contains the visible label (WCAG 2.5.3 Label in Name). Before any choice is stored it shows the System icon.
-- **A-14** Keyboard and pointer model of the WAI-ARIA menu button pattern: click, tap, Enter, Space or ArrowDown opens; focus goes to the checked item (so the current choice is announced first) rather than the first item; ArrowUp/ArrowDown move and wrap, Home/End jump; Enter, Space, click or tap on an item selects it, closes the menu and returns focus to the button (selecting the checked item only closes it); Escape closes and returns focus to the button; Tab or Shift+Tab closes and focus moves on in the normal Tab order; a click or tap outside closes and focus goes where the reader clicked; no type-ahead.
+- **A-14** Keyboard and pointer model of the WAI-ARIA menu button pattern: click, tap, Enter, Space or ArrowDown opens; focus goes to the checked item (so the current choice is announced first) rather than the first item; ArrowUp/ArrowDown move and wrap, Home/End jump; Enter, Space, click or tap on an item selects it, closes the menu and returns focus to the button (selecting the checked item only closes it); Escape closes and returns focus to the button; Tab or Shift+Tab closes and focus moves on in the normal Tab order; a click or tap outside closes and focus goes where the reader clicked; no type-ahead. A-18 pins ArrowUp on the closed button and the Tab / Shift+Tab focus targets.
 - **A-15** WHILE the menu is open and another tab changes the choice, the page palette (AC-22), the button icon and the checked item update; the menu stays open and focus does not move — closing it would discard where the reader is.
 - **A-16** Semantics: an ARIA menu of `menuitemradio` items with `aria-checked`, not a disclosure list of buttons with `aria-pressed` — the user chose a menu (S-7); `menuitemradio` states that the three choices are one exclusive set and screen readers announce "checked" on the current one; the button's popup and expanded state tell the reader a menu opens and whether it is open.
+- **A-17** Palette identity is checked on resolved computed colours — the background of `html` is `rgb(18, 20, 26)` (`#12141a`) in dark and `rgb(255, 255, 255)` (`#ffffff`) in light (S-3), and AC-10 compares the computed `color`, `background-color` and `border-color` of `html`, a post card and a pagination box — never on the text of a token custom property: the plan's token design (each token one `light-dark()` value switched by the document's `color-scheme`) leaves that text unresolved and equal in both palettes. Source: plan R-3 · user · 2026-10-23 (S-9).
+- **A-18** ArrowUp on the closed "Theme" button does nothing — only click, tap, Enter, Space and ArrowDown open the menu (AC-32); opening on ArrowUp was rejected (plan REC-2, S-9). Tab or Shift+Tab inside the open menu closes it without changing the choice and focus continues from the "Theme" button: Tab moves to the first focusable element after the button, Shift+Tab to "Blog". Source: plan R-8 · user · 2026-10-23 (S-9).
 
 ## Open questions
 none — all three answered by the user on 2026-10-23 (S-7): choices → AC-2; persistence → § Contract › Persistence, AC-17, A-4; control style → § Contract › UI surface, AC-32–AC-43, A-13–A-16.
@@ -183,14 +191,14 @@ Web rows are `demo`, `inspection` or `analysis` per A-12; the browser OS prefere
 |---|---|---|---|---|---|
 | AC-1 | US-1 | S-1 | demo | — | `/posts`, `/posts?page=2`, a 404 page: "Theme" button in `header` |
 | AC-2 | US-1 | S-7 | demo | — | open menu: items "Light", "Dark", "System" in that order |
-| AC-3 | US-1 | S-1 | demo | — | OS light, choose Dark: `--bg` computes `#12141a` |
-| AC-4 | US-1 | S-1 | demo | — | OS dark, choose Light: `--bg` computes `#ffffff` |
-| AC-5 | US-1 | A-1 | demo | — | choose System under each OS setting: `--bg` follows it |
-| AC-6 | US-1 | S-2 | demo | — | Dark chosen, flip OS to light: `--bg` stays `#12141a` |
+| AC-3 | US-1 | S-1 | demo | — | OS light, choose Dark: `getComputedStyle(document.documentElement).backgroundColor` = `rgb(18, 20, 26)` (A-17) |
+| AC-4 | US-1 | S-1 | demo | — | OS dark, choose Light: `getComputedStyle(document.documentElement).backgroundColor` = `rgb(255, 255, 255)` (A-17) |
+| AC-5 | US-1 | A-1 | demo | — | choose System: `html` computed `backgroundColor` = `rgb(255, 255, 255)` on a light OS, `rgb(18, 20, 26)` on a dark OS (A-17) |
+| AC-6 | US-1 | S-2 | demo | — | Dark chosen, flip OS to light: `html` computed `backgroundColor` stays `rgb(18, 20, 26)` (A-17) |
 | AC-7 | US-1 | S-2 | demo | — | network panel shows no document request on a choice |
 | AC-8 | US-1 | A-13 | demo | — | after choosing Dark, the button shows the Dark icon |
 | AC-9 | US-1 | A-14 | demo | — | select by keyboard: `document.activeElement` is the "Theme" button |
-| AC-10 | US-1 | S-3 | demo | — | computed token values equal between Dark-on-light-OS and System-on-dark-OS |
+| AC-10 | US-1 | S-3 | demo | — | computed `color`, `background-color`, `border-color` of `html`, a post card and a pagination box equal between Dark-on-light-OS and System-on-dark-OS (A-17) |
 | AC-11 | US-1 | S-2 | demo | — | computed `color-scheme` of `html` per palette; scrollbar matches |
 | AC-12 | US-1 | A-11 | demo | — | effective `theme-color` per palette; mobile browser bar colour |
 | AC-13 | US-1 | A-4 | demo | — | JS off: no "Theme" button in the rendered header |
@@ -206,9 +214,9 @@ Web rows are `demo`, `inspection` or `analysis` per A-12; the browser OS prefere
 | AC-23 | US-2 | A-6 | demo | — | change in tab B, go back in tab A from another site: stored choice shown |
 | AC-24 | US-2 | A-5 | demo | — | stored value edited to `blue`: page follows OS, "System" checked |
 | AC-25 | US-2 | A-5 | demo | — | storage blocked: choice applies on the page; reload follows OS |
-| AC-26 | — | S-3 | demo | — | no choice stored, OS dark: dark tokens |
+| AC-26 | — | S-3 | demo | — | no choice stored, OS dark: `html` computed `backgroundColor` = `rgb(18, 20, 26)` (A-17) |
 | AC-27 | — | S-3 | demo | — | System, flip OS on an open page: palette switches without reload |
-| AC-28 | — | S-3 | demo | — | JS off, OS dark: dark tokens |
+| AC-28 | — | S-3 | demo | — | JS off, OS dark: `html` computed `backgroundColor` = `rgb(18, 20, 26)` (A-17) |
 | AC-29 | — | S-5 | demo | — | JS off: `GET /posts` HTML holds the 12 `article` elements |
 | AC-30 | — | S-5 | demo | — | Tab from load: first stop "Skip to content" |
 | AC-31 | — | S-6 | analysis | — | API request log: one call for 5 reloads within 60 s, readers on different palettes |
@@ -219,11 +227,14 @@ Web rows are `demo`, `inspection` or `analysis` per A-12; the browser OS prefere
 | AC-36 | US-1 | S-7 | demo | — | select an item each way: menu gone, `aria-expanded="false"` |
 | AC-37 | US-1 | S-7 | demo | — | arrow to another item, Escape: menu closed, palette unchanged |
 | AC-38 | US-1 | S-7 | demo | — | after Escape, `document.activeElement` is the button |
-| AC-39 | US-1 | S-7 | demo | — | Tab inside the open menu: menu closed, choice unchanged |
+| AC-39 | US-1 | S-7 | demo | — | arrow to another item, then Tab; again with Shift+Tab: each time menu closed, `aria-expanded="false"`, choice and palette unchanged |
 | AC-40 | US-1 | S-7 | demo | — | click on page body with menu open: menu closed, choice unchanged |
 | AC-41 | US-1 | A-14 | demo | — | click the button twice: menu opens then closes |
 | AC-42 | US-1 | A-15 | demo | — | menu open in tab A, choose Dark in tab B: tab A menu still open, "Dark" checked |
 | AC-43 | US-1 | A-9 | demo | — | open menu: element positions in `main` unchanged; menu drawn over the cards |
+| AC-44 | US-1 | A-18 | demo | — | Tab in the open menu: `document.activeElement` is the next stop after the "Theme" button in the closed-menu Tab walk (NFR-9) |
+| AC-45 | US-1 | A-18 | demo | — | Shift+Tab in the open menu: `document.activeElement` is the "Blog" link |
+| AC-46 | US-1 | A-18 | demo | — | focus the closed button, press ArrowUp: no menu shown, `aria-expanded="false"` |
 | NFR-1 | US-1 | A-13 | demo | — | accessibility tree: button name "Theme: System" / "Theme: Dark" |
 | NFR-2 | US-1 | S-2 | demo | — | each choice selected with keyboard only |
 | NFR-3 | US-1 | S-3 | analysis | — | contrast checker: focus outline on button and items, both palettes |
