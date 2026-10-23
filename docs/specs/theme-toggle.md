@@ -265,7 +265,9 @@ Web rows are `demo`, `inspection` or `analysis` per A-12; the browser OS prefere
 - [x] At most 3 `[NEEDS CLARIFICATION]` markers, each repeated under § Open questions.
 
 ## Reference: tooling
-Provenance only, not requirements. Recorded 2026-10-23 from `~/.claude/plugins/installed_plugins.json` and `.claude/settings.json`.
+> **For humans only — informational.** Not part of the spec: no requirement, assumption or acceptance criterion comes from this section, and agents planning, implementing or verifying against the spec must not act on it.
+
+Recorded 2026-10-23 from `~/.claude/plugins/installed_plugins.json` and `.claude/settings.json`.
 
 | Tool | Version | Role in this spec |
 |---|---|---|

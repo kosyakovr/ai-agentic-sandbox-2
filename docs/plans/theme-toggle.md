@@ -463,7 +463,9 @@ No suite makes paid calls or uses real credentials.
 - none: a docs change. plan-verifier checks the WP4 "Done when" greps and `git diff --stat README.md` by inspection.
 
 ## Reference: tooling
-Provenance only, not plan steps. Recorded 2026-10-23 from `~/.claude/plugins/installed_plugins.json`, `.claude/settings.json` and the agents' frontmatter.
+> **For humans only — informational.** Not part of the plan: no requirement, step, gate or check comes from this section, and agents executing or verifying the plan must not act on it.
+
+Recorded 2026-10-23 from `~/.claude/plugins/installed_plugins.json`, `.claude/settings.json` and the agents' frontmatter.
 
 | Tool | Version | Role in this plan |
 |---|---|---|
