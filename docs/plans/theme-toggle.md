@@ -439,20 +439,6 @@ No suite makes paid calls or uses real credentials.
   - Do not run `pnpm` or `next dev` inside a worktree copy (`INSIGHTS.md:19`).
   - If `apps/web/AGENTS.md` appears, it is a protected path: do not commit it.
 
-## Reference: tooling
-Provenance only, not plan steps. Recorded 2026-10-23 from `~/.claude/plugins/installed_plugins.json`, `.claude/settings.json` and the agents' frontmatter.
-
-| Tool | Version | Role in this plan |
-|---|---|---|
-| Claude Code main session | model Opus 5.5 (`claude-opus-5-5`) | brief, user questions, saved the plan verbatim, header and Approved line |
-| `sdd-engineering:implementation-planner` agent | plugin `sdd-engineering` 1.3.0 (commit `3be07ae`); agent model `opus`, effort `high` | wrote this plan and its two revisions |
-| `sdd-engineering:spec-creator` agent | plugin `sdd-engineering` 1.3.0 (commit `3be07ae`); agent model `opus`, effort `high` | plan-defaults round on the spec (A-17, A-18, AC-44–AC-46, S-9) |
-| `spec-lint.sh` | plugin `sdd-engineering` 1.3.0 | spec check before planning and after the defaults round |
-| `engineering-paved-path` skills cited in WP1–WP3 (`frontend-ui-architecture`, `next-best-practices`, `react-best-practices`, `security`, `typescript-expert`) | plugin `engineering-paved-path` 1.1.0 (commit `6e5c0c7`) | rules the work packages bind to |
-| `research-tools`, `architecture-review` | 1.1.0 each (commit `6e5c0c7`) | enabled dependencies; `architecture-reviewer` is planned for review, not used yet |
-
-Marketplace: `dev-digest-ai-latest` — `kosyakovr/dev-digest-ai-marketplace`, ref `latest`, auto-update on, so versions may differ when the plan is executed.
-
 <!-- test-brief -->
 ## Test brief
 ### TP-1 (demo, run in a browser; web rows are `demo` / `inspection` / `analysis` per spec A-12)
@@ -475,3 +461,17 @@ Marketplace: `dev-digest-ai-latest` — `kosyakovr/dev-digest-ai-marketplace`, r
 
 ### WP4.tests
 - none: a docs change. plan-verifier checks the WP4 "Done when" greps and `git diff --stat README.md` by inspection.
+
+## Reference: tooling
+Provenance only, not plan steps. Recorded 2026-10-23 from `~/.claude/plugins/installed_plugins.json`, `.claude/settings.json` and the agents' frontmatter.
+
+| Tool | Version | Role in this plan |
+|---|---|---|
+| Claude Code main session | model Opus 5.5 (`claude-opus-5-5`) | brief, user questions, saved the plan verbatim, header and Approved line |
+| `sdd-engineering:implementation-planner` agent | plugin `sdd-engineering` 1.3.0 (commit `3be07ae`); agent model `opus`, effort `high` | wrote this plan and its two revisions |
+| `sdd-engineering:spec-creator` agent | plugin `sdd-engineering` 1.3.0 (commit `3be07ae`); agent model `opus`, effort `high` | plan-defaults round on the spec (A-17, A-18, AC-44–AC-46, S-9) |
+| `spec-lint.sh` | plugin `sdd-engineering` 1.3.0 | spec check before planning and after the defaults round |
+| `engineering-paved-path` skills cited in WP1–WP3 (`frontend-ui-architecture`, `next-best-practices`, `react-best-practices`, `security`, `typescript-expert`) | plugin `engineering-paved-path` 1.1.0 (commit `6e5c0c7`) | rules the work packages bind to |
+| `research-tools`, `architecture-review` | 1.1.0 each (commit `6e5c0c7`) | enabled dependencies; `architecture-reviewer` is planned for review, not used yet |
+
+Marketplace: `dev-digest-ai-latest` — `kosyakovr/dev-digest-ai-marketplace`, ref `latest`, auto-update on, so versions may differ when the plan is executed.
