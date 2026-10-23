@@ -11,8 +11,7 @@
         "source": "github",
         "repo": "kosyakovr/dev-digest-ai-marketplace",
         "ref": "latest"
-      },
-      "autoUpdate": true
+      }
     }
   }
 }
